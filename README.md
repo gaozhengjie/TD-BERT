@@ -1,6 +1,6 @@
 # Experimental environment
-Python 3.7.4
-PyTorch 0.4.0
+- Python 3.7.4
+- PyTorch 0.4.0
 
 
 # How to run it?
