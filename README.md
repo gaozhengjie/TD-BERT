@@ -31,6 +31,18 @@ Just run the command `sh run.sh` in terminal.
 - task_name: has three options, 'laptop', 'restaurant' and 'tweet'.
 - data_dir: dataset directory
 
+# Citation
+```
+@article{gao2019target,
+  title={Target-dependent sentiment classification with BERT},
+  author={Gao, Zhengjie and Feng, Ao and Song, Xinyu and Wu, Xi},
+  journal={Ieee Access},
+  volume={7},
+  pages={154290--154299},
+  year={2019},
+  publisher={IEEE}
+}
+```
 
 # PS
 if you have some questions, you can contact with me by E-mail: gaozhengj@foxmail.com
