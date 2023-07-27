@@ -302,7 +302,7 @@ class Instructor:
                                                   input_t_ids, input_t_mask, segment_t_ids,
                                                   input_left_t_ids, input_left_t_mask, segment_left_t_ids,
                                                   input_right_t_ids, input_right_t_mask, segment_right_t_ids)
-                    elif self.opt.model_class in [RAM, TNet_LF, MGAN, TT, MLP, TD_BERT, TD_BERT_QA, DTD_BERT]:
+                    elif self.opt.model_class in [RAM, TNet_LF, MGAN, MLP, TD_BERT, TD_BERT_QA, DTD_BERT]:
                         input_left_ids = input_left_ids.to(self.opt.device)
                         input_left_mask = input_left_mask.to(self.opt.device)
                         segment_left_ids = segment_left_ids.to(self.opt.device)
