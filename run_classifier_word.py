@@ -5,25 +5,21 @@ from __future__ import division
 from __future__ import print_function
 
 import sys
+
 sys.path.append('/home/gzj/anaconda3/lib/python3.6/site-packages/tqdm/')
 
-import csv
 import os
 import logging
-import random
-from tqdm import tqdm, trange
-
+from tqdm import tqdm
 import numpy as np
 import torch
-from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 from tensorboardX import SummaryWriter
 from modeling import BertConfig, BertForSequenceClassification
 from optimization import BERTAdam
-
 from configs import get_config
-from models import CNN, CLSTM, PF_CNN, TCN, Bert_PF, BBFC, TC_CNN, RAM, IAN, ATAE_LSTM, AOA, MemNet, Cabasc, TNet_LF, MGAN, BERT_IAN, TC_SWEM, TT, MLP, AEN_BERT, TD_BERT, TD_BERT_QA, DTD_BERT
+from models import CNN, CLSTM, PF_CNN, TCN, Bert_PF, BBFC, TC_CNN, RAM, IAN, ATAE_LSTM, AOA, MemNet, Cabasc, TNet_LF, \
+    MGAN, BERT_IAN, TC_SWEM, TT, MLP, AEN_BERT, TD_BERT, TD_BERT_QA, DTD_BERT
 from utils.data_util import ReadData, RestaurantProcessor, LaptopProcessor, TweetProcessor
-import torch.nn.functional as F
 from sklearn.metrics import f1_score
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s -   %(message)s',
@@ -34,7 +30,6 @@ logger = logging.getLogger(__name__)
 
 def accuracy(out, labels):
     outputs = np.argmax(out, axis=1)
-    # print(outputs)
     return np.sum(outputs == labels)
 
 
@@ -262,8 +257,8 @@ class Instructor:
             # self.writer.add_scalar('lr', self.optimizer_me.param_groups[0]['lr'], i_epoch)
             print(
                 "Results: train_acc: {0:.6f} | train_f1: {1:.6f} | train_loss: {2:.6f} | eval_accuracy: {3:.6f} | eval_loss: {4:.6f} | eval_f1: {5:.6f} | max_test_acc: {6:.6f} | max_test_f1: {7:.6f}".format(
-                    train_accuracy, train_f1, tr_loss, result['eval_accuracy'], result['eval_loss'], result['eval_f1'], self.max_test_acc, self.max_test_f1))
-
+                    train_accuracy, train_f1, tr_loss, result['eval_accuracy'], result['eval_loss'], result['eval_f1'],
+                    self.max_test_acc, self.max_test_f1))
 
     def do_eval(self):  # 测试准确率
         self.model.eval()
@@ -329,7 +324,7 @@ class Instructor:
             #         loss, logits = self.model(input_ids, segment_ids, input_mask, labels=label_ids,
             #                                   input_t_ids=input_t_ids,
             #                                   input_t_mask=input_t_mask, segment_t_ids=segment_t_ids)
-                    # confidence.extend(torch.nn.Softmax(dim=1)(logits)[:, 1].tolist())  # 获取 positive 类的置信度
+            # confidence.extend(torch.nn.Softmax(dim=1)(logits)[:, 1].tolist())  # 获取 positive 类的置信度
             # loss = F.cross_entropy(logits, label_ids, size_average=False)  # 计算mini-batch的loss总和
             if self.opt.n_gpu > 1:
                 loss = loss.mean()  # mean() to average on multi-gpu.
@@ -364,7 +359,6 @@ class Instructor:
         if test_f1 > self.max_test_f1:
             self.max_test_f1 = test_f1
 
-
         result = {'eval_loss': eval_loss,
                   'eval_accuracy': eval_accuracy,
                   'eval_f1': test_f1, }
@@ -378,7 +372,6 @@ class Instructor:
         # print("Eval results ==> eval_accuracy: {0}, eval_loss: {1}, max_test_acc: {2}".format(
         #     result['eval_accuracy'], result['eval_loss'], self.max_test_acc))
         return result
-
 
     def do_predict(self):
         # 加载保存的模型进行预测，获得准确率
@@ -408,7 +401,6 @@ class Instructor:
             nb_test_examples += input_ids.size(0)
         test_accuracy = test_accuracy / nb_test_examples
         return test_accuracy
-
 
     def run(self):
         print('> training arguments:')
@@ -503,8 +495,7 @@ if __name__ == "__main__":
     max_test_acc = ins.run()
 
     with open('result.txt', 'a', encoding='utf-8') as f:
-        f.write(str(max_test_acc)+'\n')
-
+        f.write(str(max_test_acc) + '\n')
 
     # result = []
     # for i in range(10):  # 跑10次，计算均值和标准差
