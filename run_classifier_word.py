@@ -4,10 +4,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import sys
-
-sys.path.append('/home/gzj/anaconda3/lib/python3.6/site-packages/tqdm/')
-
 import os
 import logging
 from tqdm import tqdm
@@ -18,7 +14,7 @@ from modeling import BertConfig, BertForSequenceClassification
 from optimization import BERTAdam
 from configs import get_config
 from models import CNN, CLSTM, PF_CNN, TCN, Bert_PF, BBFC, TC_CNN, RAM, IAN, ATAE_LSTM, AOA, MemNet, Cabasc, TNet_LF, \
-    MGAN, BERT_IAN, TC_SWEM, TT, MLP, AEN_BERT, TD_BERT, TD_BERT_QA, DTD_BERT
+    MGAN, BERT_IAN, TC_SWEM, MLP, AEN_BERT, TD_BERT, TD_BERT_QA, DTD_BERT
 from utils.data_util import ReadData, RestaurantProcessor, LaptopProcessor, TweetProcessor
 from sklearn.metrics import f1_score
 
@@ -92,7 +88,7 @@ class Instructor:
             self.model = model_classes[args.model_name](bert_config, args)
 
         if args.init_checkpoint is not None:
-            self.model.bert.load_state_dict(torch.load(args.init_checkpoint, map_location='cpu'))
+            self.model.bert.load_state_dict(torch.load(args.init_checkpoint, map_location='cpu'), False)
         if args.fp16:
             self.model.half()
         # 冻结参数
@@ -194,7 +190,7 @@ class Instructor:
                                                   input_t_ids, input_t_mask, segment_t_ids,
                                                   input_left_t_ids, input_left_t_mask, segment_left_t_ids,
                                                   input_right_t_ids, input_right_t_mask, segment_right_t_ids)
-                    elif self.opt.model_class in [RAM, TNet_LF, MGAN, TT, MLP, TD_BERT, TD_BERT_QA, DTD_BERT]:
+                    elif self.opt.model_class in [RAM, TNet_LF, MGAN, MLP, TD_BERT, TD_BERT_QA, DTD_BERT]:
                         input_left_ids = input_left_ids.to(self.opt.device)
                         input_left_mask = input_left_mask.to(self.opt.device)
                         segment_left_ids = segment_left_ids.to(self.opt.device)
@@ -451,7 +447,6 @@ if __name__ == "__main__":
         'mgan': MGAN,
         'bert_ian': BERT_IAN,
         'tc_swem': TC_SWEM,
-        'tt': TT,
         'mlp': MLP,
         'aen': AEN_BERT,
         'td_bert': TD_BERT,
