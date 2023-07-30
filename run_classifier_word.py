@@ -313,20 +313,9 @@ class Instructor:
                         loss, logits = self.model(input_ids, segment_ids, input_mask, label_ids, input_t_ids,
                                                   input_t_mask, segment_t_ids)
 
-            # with torch.no_grad():  # 不计算梯度
-            #     if self.opt.model_class in [BertForSequenceClassification, CNN]:
-            #         loss, logits = self.model(input_ids, segment_ids, input_mask, label_ids)
-            #     else:
-            #         loss, logits = self.model(input_ids, segment_ids, input_mask, labels=label_ids,
-            #                                   input_t_ids=input_t_ids,
-            #                                   input_t_mask=input_t_mask, segment_t_ids=segment_t_ids)
-            # confidence.extend(torch.nn.Softmax(dim=1)(logits)[:, 1].tolist())  # 获取 positive 类的置信度
-            # loss = F.cross_entropy(logits, label_ids, size_average=False)  # 计算mini-batch的loss总和
             if self.opt.n_gpu > 1:
                 loss = loss.mean()  # mean() to average on multi-gpu.
             if args.fp16 and args.loss_scale != 1.0:
-                # rescale loss for fp16 training
-                # see https://docs.nvidia.com/deeplearning/sdk/mixed-precision-training/index.html
                 loss = loss * args.loss_scale
             if args.gradient_accumulation_steps > 1:
                 loss = loss / args.gradient_accumulation_steps
