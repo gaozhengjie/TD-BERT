@@ -4,11 +4,12 @@
 import argparse
 from datetime import datetime
 
+
 def get_config():
     parser = argparse.ArgumentParser()
-    TIMESTAMP = "{0:%Y-%m-%d--%H-%M-%S/}".format(datetime.now())
+    timestamp = "{0:%Y-%m-%d--%H-%M-%S/}".format(datetime.now())
 
-    ## Required parameters
+    # Required parameters
     parser.add_argument("--data_dir",
                         default=None,
                         type=str,
@@ -31,15 +32,15 @@ def get_config():
                         required=True,
                         help="The vocabulary file that the BERT model was trained on.")
     parser.add_argument("--output_dir",
-                        default='log/'+TIMESTAMP,
+                        default='log/' + timestamp,
                         type=str,
                         help="The output directory where the model checkpoints will be written.")
     parser.add_argument("--model_save_path",
-                        default='save_model/' + TIMESTAMP,
+                        default='save_model/' + timestamp,
                         type=str,
                         help="The output directory where the model checkpoints will be written.")
 
-    ## Other parameters
+    # Other parameters
     parser.add_argument("--init_checkpoint",
                         default=None,
                         type=str,
@@ -120,7 +121,6 @@ def get_config():
                         type=list,
                         help=u'输入要指定的 GPU 编号')
 
-    # parser.add_argument('--model_name', default='lstm', type=str)
     parser.add_argument('--model_name', default='fc', type=str)  # 全连接模型，即bert的输出后面加全连接
     parser.add_argument('--embed_dim', default=768, type=int)
     parser.add_argument('--n_filters', default=100, type=int)
