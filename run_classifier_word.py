@@ -68,10 +68,6 @@ class Instructor:
                 "Cannot use sequence length {} because the BERT model was only trained up to sequence length {}".format(
                     args.max_seq_length, bert_config.max_position_embeddings))
 
-        # if os.path.exists(args.output_dir) and os.listdir(args.output_dir):
-        #     raise ValueError("Output directory ({}) already exists and is not empty.".format(args.output_dir))
-        # os.makedirs(args.output_dir, exist_ok=True)
-
         self.dataset = ReadData(self.opt)  # Read the data and preprocess it
         self.num_train_steps = None
         self.num_train_steps = int(len(
@@ -91,10 +87,7 @@ class Instructor:
             self.model.bert.load_state_dict(torch.load(args.init_checkpoint, map_location='cpu'), False)
         if args.fp16:
             self.model.half()
-        # 冻结参数
-        # for name, p in self.model.named_parameters():
-        #     if name.startswith('bert.encoder.layer.11') or name.startswith('bert.encoder.layer.10') or name.startswith('bert.encoder.layer.9') or name.startswith('bert.encoder.layer.8'):  # 冻结最后一层
-        #         p.requires_grad = False
+
         # 计算模型的参数个数
         n_trainable_params, n_nontrainable_params = 0, 0
         for p in self.model.parameters():
@@ -130,13 +123,6 @@ class Instructor:
                                   lr=args.learning_rate,
                                   warmup=args.warmup_proportion,
                                   t_total=self.num_train_steps)
-        # 配置自己模型的优化器
-        # [p for pname, p in self.param_optimizer if not pname.startswith('module.bert')]
-        # self.optimizer_me = torch.optim.Adam(
-        #     [{'params': [p for pname, p in self.param_optimizer if not pname.startswith('module.bert')]}], lr=0.001,
-        #     weight_decay=0)
-        # self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(self.optimizer_me, mode='max',
-        #                                           patience=3)  # 3个epoch后，所监测的值停止增加时自动调整学习率
 
         self.global_step = 0  # 初始化全局步数为 0
         self.max_test_acc = 0
