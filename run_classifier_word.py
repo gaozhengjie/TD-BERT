@@ -129,7 +129,6 @@ class Instructor:
         self.max_test_f1 = 0
 
     def do_train(self):  # 训练模型
-        # for _ in trange(int(args.num_train_epochs), desc="Epoch"):
         for i_epoch in range(int(args.num_train_epochs)):
             print('>' * 100)
             print('epoch: ', i_epoch)
@@ -445,8 +444,6 @@ if __name__ == "__main__":
         if args.fp16:
             logger.info("16-bits training currently not supported in distributed training")
             args.fp16 = False  # (see https://github.com/pytorch/pytorch/pull/13496)
-            # Initializes the distributed backend which will take care of sychronizing nodes/GPUs
-            # torch.distributed.init_process_group(backend='nccl')
     logger.info(
         "device: {}, n_gpu: {}, distributed training: {}".format(args.device, args.n_gpu, bool(args.local_rank != -1)))
 
@@ -456,11 +453,6 @@ if __name__ == "__main__":
 
     args.train_batch_size = int(args.train_batch_size / args.gradient_accumulation_steps)
 
-    # random.seed(args.seed)
-    # np.random.seed(args.seed)
-    # torch.manual_seed(args.seed)
-    # if args.n_gpu > 0:
-    #     torch.cuda.manual_seed_all(args.seed)
     ins = Instructor(args)
     max_test_acc = ins.run()
 
