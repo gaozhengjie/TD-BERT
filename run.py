@@ -1,5 +1,4 @@
 import subprocess
-import pathlib
 import os
 import sys
 
@@ -8,8 +7,6 @@ if __name__ == '__main__':
     print("*"*100)
     print(sys.path)
     print("*"*100)
-    # main_path = pathlib.Path('/home/gzj/sentiment/aspect_sentiment/')
-    # os.chdir(main_path)
     print(sys.path)
     print(os.getcwd())
     subprocess.run(['python', '/home/gzj/sentiment/aspect_sentiment/run_classifier_word.py',
