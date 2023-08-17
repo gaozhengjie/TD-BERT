@@ -458,23 +458,3 @@ if __name__ == "__main__":
 
     with open('result.txt', 'a', encoding='utf-8') as f:
         f.write(str(max_test_acc) + '\n')
-
-    # result = []
-    # for i in range(10):  # 跑10次，计算均值和标准差
-    #     random.seed(args.seed)
-    #     np.random.seed(args.seed)
-    #     torch.manual_seed(args.seed)
-    #     if args.n_gpu > 0:
-    #         torch.cuda.manual_seed_all(args.seed)
-    #     print("Time: " + str(i))
-    #     ins = Instructor(args)
-    #     max_test_acc = ins.run()
-    #     result.append(max_test_acc)
-    # print(">"*100)
-    # for i in result:
-    #     print(i)
-    # print(">"*100)
-    # max_mean = np.mean(np.array(result))  # 计算均值
-    # std = np.std(np.array(result).astype(float), ddof=1)  # 除以 n-1
-    # std_2 = np.std(np.array(result).astype(float), ddof=0)  # 除以 n
-    # print('均值：{:.4f}, 样本标准差： {:.4f}, 总体标准差: {:.4f}'.format(max_mean, std, std_2))
