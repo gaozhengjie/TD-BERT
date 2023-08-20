@@ -8,6 +8,7 @@ import torch.nn as nn
 
 class PositionwiseFeedForward(nn.Module):
     ''' A two-feed-forward-layer module '''
+
     def __init__(self, d_hid, d_inner_hid=None, dropout=0):
         super(PositionwiseFeedForward, self).__init__()
         if d_inner_hid is None:
