@@ -431,7 +431,6 @@ if __name__ == "__main__":
 
     if args.local_rank == -1 or args.no_cuda:  # if use multiple Gpus or no Gpus
         args.device = torch.device("cuda" if torch.cuda.is_available() and not args.no_cuda else "cpu")
-        # args.n_gpu = torch.cuda.device_count()
         while ',' in args.gpu_id:
             args.gpu_id.remove(',')
         args.gpu_id = list(map(int, args.gpu_id))
